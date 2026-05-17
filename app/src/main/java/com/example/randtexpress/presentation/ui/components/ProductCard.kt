@@ -16,12 +16,15 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.ContentScale
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import coil.compose.AsyncImage
+import com.example.randtexpress.R
 import com.example.randtexpress.data.remote.dto.response.ProductResponse
+import com.example.randtexpress.presentation.ui.toVndDisplay
 
 @Composable
 fun ProductCard(
@@ -33,7 +36,7 @@ fun ProductCard(
     Card(
         modifier = modifier
             .width(160.dp)
-            .padding(8.dp)
+            .padding(6.dp)
             .clickable(onClick = onClick),
         shape = RoundedCornerShape(16.dp),
         colors = CardDefaults.cardColors(containerColor = Color.White),
@@ -60,7 +63,7 @@ fun ProductCard(
             ) {
                 Icon(
                     imageVector = Icons.Default.FavoriteBorder,
-                    contentDescription = "Favorite",
+                    contentDescription = stringResource(R.string.favorite),
                     tint = Color.Gray,
                     modifier = Modifier.size(20.dp)
                 )
@@ -69,7 +72,7 @@ fun ProductCard(
 
         Column(
             modifier = Modifier
-                .padding(8.dp)
+                .padding(6.dp)
                 .fillMaxWidth()
         ) {
             Text(
@@ -84,7 +87,7 @@ fun ProductCard(
             // Rating Stars (Placeholder)
             Row(
                 verticalAlignment = Alignment.CenterVertically,
-                modifier = Modifier.padding(vertical = 4.dp)
+                modifier = Modifier.padding(vertical = 2.dp)
             ) {
                 repeat(5) {
                     Icon(
@@ -102,7 +105,7 @@ fun ProductCard(
                 verticalAlignment = Alignment.CenterVertically
             ) {
                 Text(
-                    text = "$${product.price / 1000.0}", // Assuming price is in small units like cents or VND/1000
+                    text = product.price.toVndDisplay(),
                     fontSize = 16.sp,
                     fontWeight = FontWeight.ExtraBold,
                     color = Color.Black
@@ -116,7 +119,7 @@ fun ProductCard(
                 ) {
                     Icon(
                         imageVector = Icons.Default.Add,
-                        contentDescription = "Add to cart",
+                        contentDescription = stringResource(R.string.add_to_cart),
                         tint = Color.White,
                         modifier = Modifier.padding(4.dp)
                     )

@@ -1,12 +1,14 @@
 package com.example.randtexpress.di
 
 import com.example.randtexpress.data.repository.AuthRepositoryImpl
+import com.example.randtexpress.data.repository.CartRepositoryImpl
 import com.example.randtexpress.data.repository.CategoryRepositoryImpl
 import com.example.randtexpress.data.repository.NotificationRepositoryImpl
 import com.example.randtexpress.data.repository.OrderRepositoryImpl
 import com.example.randtexpress.data.repository.ProductRepositoryImpl
 import com.example.randtexpress.data.repository.UserRepositoryImpl
 import com.example.randtexpress.domain.repository.AuthRepository
+import com.example.randtexpress.domain.repository.CartRepository
 import com.example.randtexpress.domain.repository.CategoryRepository
 import com.example.randtexpress.domain.repository.NotificationRepository
 import com.example.randtexpress.domain.repository.OrderRepository
@@ -39,6 +41,12 @@ abstract class RepositoryModule {
     abstract fun bindCategoryRepository(
         impl: CategoryRepositoryImpl
     ): CategoryRepository
+
+    @Singleton
+    @Binds
+    abstract fun bindCartRepository(
+        impl: CartRepositoryImpl
+    ): CartRepository
 
     @Singleton
     @Binds

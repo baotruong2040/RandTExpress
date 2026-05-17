@@ -38,12 +38,12 @@ class TestConnectionViewModel @Inject constructor(
     private val _isLoading = MutableStateFlow(false)
     val isLoading: StateFlow<Boolean> = _isLoading.asStateFlow()
 
-    fun testLogin() = runTest("Login") {
+    fun testLogin() = runTest("Đăng nhập") {
         val result = authRepository.login("admin", "change_admin_password")
-        "Token: ${result.token?.take(20) ?: "no token"}... | User: ${result.userId} | Role: ${result.role}"
+        "Token: ${result.token?.take(20) ?: "không có token"}... | Người dùng: ${result.userId} | Vai trò: ${result.role}"
     }
 
-    fun testRegister() = runTest("Register") {
+    fun testRegister() = runTest("Đăng ký") {
         val result = authRepository.register(
             username = "test_user_${System.currentTimeMillis()}",
             password = "password123",
@@ -51,20 +51,20 @@ class TestConnectionViewModel @Inject constructor(
             email = "test_${System.currentTimeMillis()}@example.com",
             phone = "0912345678"
         )
-        "User: ${result.userId} | Role: ${result.role} | Token: ${result.token?.take(20) ?: "no token"}..."
+        "Người dùng: ${result.userId} | Vai trò: ${result.role} | Token: ${result.token?.take(20) ?: "không có token"}..."
     }
 
-    fun testGetProducts() = runTest("Get Products") {
+    fun testGetProducts() = runTest("Lấy sản phẩm") {
         val result = productRepository.getProducts(page = 1, pageSize = 5)
-        "Found ${result.products.size} products | Total: ${result.pagination.total}"
+        "Tìm thấy ${result.products.size} sản phẩm | Tổng: ${result.pagination.total}"
     }
 
-    fun testGetCategories() = runTest("Get Categories") {
+    fun testGetCategories() = runTest("Lấy danh mục") {
         val result = categoryRepository.getCategories()
-        "Found ${result.categories.size} categories"
+        "Tìm thấy ${result.categories.size} danh mục"
     }
 
-    fun testCreateOrder() = runTest("Create Order") {
+    fun testCreateOrder() = runTest("Tạo đơn hàng") {
         val items = listOf(
             Pair(1, 2),
             Pair(2, 1)
@@ -73,31 +73,31 @@ class TestConnectionViewModel @Inject constructor(
             deliveryAddress = "123 Test Street",
             items = items
         )
-        "Order: ${result.orderId} | Amount: ${result.totalAmount} | Status: ${result.status}"
+        "Đơn hàng: ${result.orderId} | Số tiền: ${result.totalAmount} | Trạng thái: ${result.status}"
     }
 
-    fun testGetNotifications() = runTest("Get Notifications") {
+    fun testGetNotifications() = runTest("Lấy thông báo") {
         val result = notificationRepository.getNotifications(pageSize = 5)
-        "Found ${result.notifications.size} notifications | Unread: ${result.pagination.unreadCount}"
+        "Tìm thấy ${result.notifications.size} thông báo | Chưa đọc: ${result.pagination.unreadCount}"
     }
 
-    fun testMarkNotificationRead() = runTest("Mark Notification Read") {
+    fun testMarkNotificationRead() = runTest("Đánh dấu đã đọc") {
         try {
             val notifications = notificationRepository.getNotifications(pageSize = 1)
             if (notifications.notifications.isNotEmpty()) {
                 val result = notificationRepository.markAsRead(notifications.notifications[0].id)
-                "Notification ${result.id} marked as read: ${result.isRead}"
+                "Thông báo ${result.id} đã đánh dấu đọc: ${result.isRead}"
             } else {
-                "No notifications available to mark as read"
+                "Không có thông báo để đánh dấu đã đọc"
             }
         } catch (e: Exception) {
-            throw Exception("Error: ${e.message}")
+            throw Exception("Lỗi: ${e.message}")
         }
     }
 
-    fun testGetUsers() = runTest("Get Users") {
+    fun testGetUsers() = runTest("Lấy người dùng") {
         val result = userRepository.getUsers(pageSize = 5)
-        "Found ${result.users.size} users | Total: ${result.pagination.total}"
+        "Tìm thấy ${result.users.size} người dùng | Tổng: ${result.pagination.total}"
     }
 
     fun clearResults() {
@@ -112,14 +112,14 @@ class TestConnectionViewModel @Inject constructor(
                 _testResults.value = _testResults.value + TestResult(
                     testName = testName,
                     isSuccess = true,
-                    message = "Success",
+                    message = "Thành công",
                     data = data
                 )
             } catch (e: Exception) {
                 _testResults.value = _testResults.value + TestResult(
                     testName = testName,
                     isSuccess = false,
-                    message = e.message ?: "Unknown error",
+                    message = e.message ?: "Lỗi không xác định",
                     data = null
                 )
             } finally {

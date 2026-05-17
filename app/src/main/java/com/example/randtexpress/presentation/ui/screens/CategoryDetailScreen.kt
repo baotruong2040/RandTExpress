@@ -40,7 +40,7 @@ fun CategoryDetailScreen(
                 title = { Text(categoryName) },
                 navigationIcon = {
                     IconButton(onClick = onBackClick) {
-                        Icon(Icons.AutoMirrored.Filled.ArrowBack, contentDescription = "Back")
+                        Icon(Icons.AutoMirrored.Filled.ArrowBack, contentDescription = "Quay lại")
                     }
                 },
                 colors = TopAppBarDefaults.topAppBarColors(
@@ -67,7 +67,7 @@ fun CategoryDetailScreen(
                         .padding(paddingValues),
                     contentAlignment = Alignment.Center
                 ) {
-                    Text(text = "Error: ${uiState.errorMessage}", color = Color.Red)
+                    Text(text = "Lỗi: ${uiState.errorMessage}", color = Color.Red)
                 }
             }
             else -> {
@@ -77,16 +77,16 @@ fun CategoryDetailScreen(
                         .fillMaxSize()
                         .padding(paddingValues)
                         .background(Color(0xFFFAFAFA))
-                        .padding(8.dp),
-                    horizontalArrangement = Arrangement.spacedBy(8.dp),
-                    verticalArrangement = Arrangement.spacedBy(8.dp)
+                        .padding(6.dp),
+                    horizontalArrangement = Arrangement.spacedBy(6.dp),
+                    verticalArrangement = Arrangement.spacedBy(6.dp)
                 ) {
                     items(uiState.products) { product ->
                         Box(modifier = Modifier.width(160.dp)) {
                             ProductCard(
                                 product = product,
                                 onClick = { onProductClick(product.id) },
-                                onAddToCart = { /* TODO */ }
+                                onAddToCart = { viewModel.addToCart(product) }
                             )
                         }
                     }

@@ -50,7 +50,7 @@ fun TestConnectionScreen(
             CenterAlignedTopAppBar(
                 title = {
                     Text(
-                        "Backend Connection Test",
+                        "Kiểm tra kết nối Backend",
                         color = Color.White,
                         fontWeight = FontWeight.Bold
                     )
@@ -66,7 +66,7 @@ fun TestConnectionScreen(
                 .padding(16.dp)
         ) {
             Text(
-                "Test API Endpoints",
+                "Kiểm tra các API",
                 fontSize = 24.sp,
                 fontWeight = FontWeight.Bold,
                 color = Color(0xFF212121),
@@ -80,28 +80,28 @@ fun TestConnectionScreen(
                 verticalArrangement = Arrangement.spacedBy(8.dp)
             ) {
                 item {
-                    TestButton(label = "Test Login", onClick = { viewModel.testLogin() }, isLoading = isLoading)
+                    TestButton(label = "Kiểm tra đăng nhập", onClick = { viewModel.testLogin() }, isLoading = isLoading)
                 }
                 item {
-                    TestButton(label = "Test Register", onClick = { viewModel.testRegister() }, isLoading = isLoading)
+                    TestButton(label = "Kiểm tra đăng ký", onClick = { viewModel.testRegister() }, isLoading = isLoading)
                 }
                 item {
-                    TestButton(label = "Get Products", onClick = { viewModel.testGetProducts() }, isLoading = isLoading)
+                    TestButton(label = "Lấy sản phẩm", onClick = { viewModel.testGetProducts() }, isLoading = isLoading)
                 }
                 item {
-                    TestButton(label = "Get Categories", onClick = { viewModel.testGetCategories() }, isLoading = isLoading)
+                    TestButton(label = "Lấy danh mục", onClick = { viewModel.testGetCategories() }, isLoading = isLoading)
                 }
                 item {
-                    TestButton(label = "Create Order", onClick = { viewModel.testCreateOrder() }, isLoading = isLoading)
+                    TestButton(label = "Tạo đơn hàng", onClick = { viewModel.testCreateOrder() }, isLoading = isLoading)
                 }
                 item {
-                    TestButton(label = "Get Notifications", onClick = { viewModel.testGetNotifications() }, isLoading = isLoading)
+                    TestButton(label = "Lấy thông báo", onClick = { viewModel.testGetNotifications() }, isLoading = isLoading)
                 }
                 item {
-                    TestButton(label = "Mark Notification Read", onClick = { viewModel.testMarkNotificationRead() }, isLoading = isLoading)
+                    TestButton(label = "Đánh dấu đã đọc", onClick = { viewModel.testMarkNotificationRead() }, isLoading = isLoading)
                 }
                 item {
-                    TestButton(label = "Get Users", onClick = { viewModel.testGetUsers() }, isLoading = isLoading)
+                    TestButton(label = "Lấy người dùng", onClick = { viewModel.testGetUsers() }, isLoading = isLoading)
                 }
                 item {
                     Button(
@@ -112,14 +112,14 @@ fun TestConnectionScreen(
                         colors = ButtonDefaults.buttonColors(containerColor = Color(0xFF757575)),
                         shape = RoundedCornerShape(8.dp)
                     ) {
-                        Text("Clear Results", color = Color.White, fontWeight = FontWeight.Bold)
+                        Text("Xóa kết quả", color = Color.White, fontWeight = FontWeight.Bold)
                     }
                 }
             }
 
             if (testResults.isNotEmpty()) {
                 Text(
-                    "Results (${testResults.size})",
+                    "Kết quả (${testResults.size})",
                     fontSize = 18.sp,
                     fontWeight = FontWeight.Bold,
                     color = Color(0xFF212121),
@@ -147,7 +147,7 @@ fun TestConnectionScreen(
                     contentAlignment = Alignment.Center
                 ) {
                     Text(
-                        "Click a button to test an endpoint",
+                        "Nhấn nút để kiểm tra endpoint",
                         color = Color(0xFF757575),
                         fontSize = 14.sp
                     )
@@ -216,7 +216,7 @@ fun TestResultCard(result: TestResult) {
             )
             Icon(
                 imageVector = if (result.isSuccess) Icons.Default.Check else Icons.Default.Close,
-                contentDescription = if (result.isSuccess) "Success" else "Error",
+                contentDescription = if (result.isSuccess) "Thành công" else "Lỗi",
                 tint = if (result.isSuccess) Color(0xFF4CAF50) else Color(0xFFD32F2F),
                 modifier = Modifier.height(20.dp)
             )

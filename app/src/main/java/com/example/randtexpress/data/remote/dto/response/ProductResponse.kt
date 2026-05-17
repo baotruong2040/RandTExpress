@@ -12,7 +12,7 @@ data class ProductResponse(
     @SerializedName("price")
     val price: Long,
     @SerializedName("image_url")
-    val imageUrl: String,
+    val imageUrl: String?,
     @SerializedName("category_id")
     val categoryId: Int,
     @SerializedName("category_name")

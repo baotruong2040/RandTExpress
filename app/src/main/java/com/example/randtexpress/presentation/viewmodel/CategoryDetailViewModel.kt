@@ -3,7 +3,9 @@ package com.example.randtexpress.presentation.viewmodel
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.randtexpress.data.remote.dto.response.ProductResponse
+import com.example.randtexpress.domain.repository.CartRepository
 import com.example.randtexpress.domain.repository.ProductRepository
+import com.example.randtexpress.presentation.ui.FixedCategories
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
@@ -23,7 +25,8 @@ data class CategoryDetailUiState(
 
 @HiltViewModel
 class CategoryDetailViewModel @Inject constructor(
-    private val productRepository: ProductRepository
+    private val productRepository: ProductRepository,
+    private val cartRepository: CartRepository
 ) : ViewModel() {
 
     private val _uiState = MutableStateFlow(CategoryDetailUiState())
@@ -38,9 +41,9 @@ class CategoryDetailViewModel @Inject constructor(
                     page = page,
                     pageSize = 20
                 )
-                
+
                 val filteredProducts = response.products.filter { 
-                    it.categoryName == categoryName 
+                    FixedCategories.mapRawCategoryToFixed(it.categoryName) == categoryName
                 }
 
                 _uiState.update { 
@@ -61,6 +64,17 @@ class CategoryDetailViewModel @Inject constructor(
         val currentState = _uiState.value
         if (!currentState.isLoading && currentState.hasMoreProducts) {
             loadProductsByCategory(categoryName, currentState.currentPage + 1)
+        }
+    }
+
+    fun addToCart(product: ProductResponse) {
+        viewModelScope.launch {
+            cartRepository.addToCart(
+                productId = product.id,
+                name = product.name,
+                imageUrl = product.imageUrl,
+                price = product.price
+            )
         }
     }
 }

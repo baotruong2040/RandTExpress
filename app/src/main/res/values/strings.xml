@@ -6,4 +6,20 @@
     <string name="password">Password</string>
     <string name="confirm_password">Confirm Password</string>
     <string name="mcdonalds">McDonald\'s</string>
+    <string name="favorite">Yêu thích</string>
+    <string name="add_to_cart">Thêm vào giỏ</string>
+    <string name="cart_title">Giỏ hàng</string>
+    <string name="back">Quay lại</string>
+    <string name="total">Tổng cộng</string>
+    <string name="order_now">Đặt ngay</string>
+    <string name="empty_cart">Giỏ hàng của bạn đang trống.</string>
+    <string name="remove">Xóa</string>
+    <string name="location">Vị trí</string>
+    <string name="your_location">Vị trí của bạn ...</string>
+    <string name="search_hint">Tìm món ăn hoặc danh mục</string>
+    <string name="see_more">Xem thêm</string>
+    <string name="exit_app_title">Thoát ứng dụng</string>
+    <string name="exit_app_message">Bạn có muốn thoát ứng dụng không?</string>
+    <string name="exit_app_confirm">Thoát</string>
+    <string name="cancel">Hủy</string>
 </resources>
