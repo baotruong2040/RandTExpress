@@ -102,7 +102,7 @@ fun ProductDetailScreen(
         bottomBar = {
             if (product != null) {
                 ProductDetailAddToCartBar(
-                    totalPrice = product.price * uiState.quantity,
+                    totalPrice = (product.price ?: 0L) * uiState.quantity,
                     onAddToCart = viewModel::addToCart
                 )
             }
@@ -145,7 +145,7 @@ fun ProductDetailScreen(
                 ) {
                     ProductHeroSection(
                         imageUrl = product.imageUrl,
-                        title = product.name
+                        title = product.name ?: ""
                     )
 
                     Column(
@@ -159,7 +159,7 @@ fun ProductDetailScreen(
                             verticalAlignment = Alignment.Top
                         ) {
                             Text(
-                                text = product.name,
+                                text = product.name ?: "",
                                 style = MaterialTheme.typography.headlineMedium,
                                 fontWeight = FontWeight.ExtraBold,
                                 modifier = Modifier.weight(1f)
@@ -191,7 +191,7 @@ fun ProductDetailScreen(
                             }
 
                             Text(
-                                text = product.price.toVndDisplay(),
+                                text = (product.price ?: 0L).toVndDisplay(),
                                 fontSize = 26.sp,
                                 fontWeight = FontWeight.ExtraBold,
                                 color = Color.Black
@@ -210,7 +210,7 @@ fun ProductDetailScreen(
                         Spacer(modifier = Modifier.height(10.dp))
 
                         Text(
-                            text = product.description,
+                            text = product.description ?: "",
                             lineHeight = 22.sp,
                             color = Color(0xFF4A4A4A)
                         )

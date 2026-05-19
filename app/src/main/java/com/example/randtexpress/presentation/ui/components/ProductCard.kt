@@ -76,7 +76,7 @@ fun ProductCard(
                 .fillMaxWidth()
         ) {
             Text(
-                text = product.name,
+                text = product.name ?: "",
                 fontSize = 14.sp,
                 fontWeight = FontWeight.Bold,
                 maxLines = 2,
@@ -105,7 +105,7 @@ fun ProductCard(
                 verticalAlignment = Alignment.CenterVertically
             ) {
                 Text(
-                    text = product.price.toVndDisplay(),
+                    text = (product.price ?: 0L).toVndDisplay(),
                     fontSize = 16.sp,
                     fontWeight = FontWeight.ExtraBold,
                     color = Color.Black

@@ -6,13 +6,13 @@ data class CategoryResponse(
     @SerializedName("id")
     val id: Int,
     @SerializedName("name")
-    val name: String,
+    val name: String?,
     @SerializedName("description")
     val description: String? = null,
     @SerializedName("image_url")
     val imageUrl: String? = null,
     @SerializedName("created_at")
-    val createdAt: String
+    val createdAt: String?
 )
 
 data class CategoryListResponse(

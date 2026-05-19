@@ -43,7 +43,9 @@ class CategoryDetailViewModel @Inject constructor(
                 )
 
                 val filteredProducts = response.products.filter { 
-                    FixedCategories.mapRawCategoryToFixed(it.categoryName) == categoryName
+                    it.categoryName?.let { name ->
+                        FixedCategories.mapRawCategoryToFixed(name) == categoryName
+                    } ?: false
                 }
 
                 _uiState.update { 
@@ -71,9 +73,9 @@ class CategoryDetailViewModel @Inject constructor(
         viewModelScope.launch {
             cartRepository.addToCart(
                 productId = product.id,
-                name = product.name,
+                name = product.name ?: "",
                 imageUrl = product.imageUrl,
-                price = product.price
+                price = product.price ?: 0L
             )
         }
     }

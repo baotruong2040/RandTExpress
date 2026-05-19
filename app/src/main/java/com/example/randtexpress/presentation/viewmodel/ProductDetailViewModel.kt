@@ -87,9 +87,9 @@ class ProductDetailViewModel @Inject constructor(
             repeat(quantity) {
                 cartRepository.addToCart(
                     productId = product.id,
-                    name = product.name,
+                    name = product.name ?: "",
                     imageUrl = product.imageUrl,
-                    price = product.price
+                    price = product.price ?: 0L
                 )
             }
         }

@@ -93,8 +93,8 @@ class AuthViewModel @Inject constructor(
             }
             userPreferences.saveSession(
                 token = token,
-                userId = response.userId,
-                role = response.role
+                userId = response.userId ?: 0,
+                role = response.role ?: ""
             )
             true
         } catch (e: Exception) {

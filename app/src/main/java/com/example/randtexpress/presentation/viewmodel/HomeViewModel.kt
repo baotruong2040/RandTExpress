@@ -42,7 +42,9 @@ class HomeViewModel @Inject constructor(
                 val groupedByCategory = FixedCategories.orderedCategories.associateWith { category ->
                     response.products
                         .filter { product ->
-                            FixedCategories.mapRawCategoryToFixed(product.categoryName) == category
+                            product.categoryName?.let { 
+                                FixedCategories.mapRawCategoryToFixed(it) == category
+                            } ?: false
                         }
                         .take(5)
                 }
@@ -63,9 +65,9 @@ class HomeViewModel @Inject constructor(
         viewModelScope.launch {
             cartRepository.addToCart(
                 productId = product.id,
-                name = product.name,
+                name = product.name ?: "",
                 imageUrl = product.imageUrl,
-                price = product.price
+                price = product.price ?: 0L
             )
         }
     }

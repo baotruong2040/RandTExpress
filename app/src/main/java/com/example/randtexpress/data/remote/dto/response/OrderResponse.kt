@@ -4,47 +4,47 @@ import com.google.gson.annotations.SerializedName
 
 data class OrderResponse(
     @SerializedName("order_id")
-    val orderId: Int,
+    val orderId: Int?,
     @SerializedName("total_amount")
-    val totalAmount: Long,
+    val totalAmount: Long?,
     @SerializedName("status")
-    val status: String,
+    val status: String?,
     @SerializedName("delivery_address")
-    val deliveryAddress: String,
+    val deliveryAddress: String?,
     @SerializedName("created_at")
-    val createdAt: String
+    val createdAt: String?
 )
 
 data class OrderDetailsResponse(
     @SerializedName("id")
-    val id: Int,
+    val id: Int?,
     @SerializedName("user_id")
-    val userId: Int,
+    val userId: Int?,
     @SerializedName("user_name")
-    val userName: String,
+    val userName: String?,
     @SerializedName("delivery_address")
-    val deliveryAddress: String,
+    val deliveryAddress: String?,
     @SerializedName("total_amount")
-    val totalAmount: Long,
+    val totalAmount: Long?,
     @SerializedName("status")
-    val status: String,
+    val status: String?,
     @SerializedName("created_at")
-    val createdAt: String,
+    val createdAt: String?,
     @SerializedName("items")
-    val items: List<OrderItemResponse>
+    val items: List<OrderItemResponse>?
 )
 
 data class OrderItemResponse(
     @SerializedName("product_id")
-    val productId: Int,
+    val productId: Int?,
     @SerializedName("product_name")
-    val productName: String,
+    val productName: String?,
     @SerializedName("quantity")
-    val quantity: Int,
+    val quantity: Int?,
     @SerializedName("price_at_order")
-    val priceAtOrder: Long,
+    val priceAtOrder: Long?,
     @SerializedName("subtotal")
-    val subtotal: Long
+    val subtotal: Long?
 )
 
 data class OrderListResponse(

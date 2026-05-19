@@ -20,6 +20,8 @@ import androidx.navigation.compose.rememberNavController
 import androidx.navigation.navArgument
 import com.example.randtexpress.presentation.ui.screens.CartScreen
 import com.example.randtexpress.presentation.ui.screens.CategoryDetailScreen
+import com.example.randtexpress.presentation.ui.screens.CheckoutScreen
+import com.example.randtexpress.presentation.ui.screens.OrderDetailScreen
 import com.example.randtexpress.presentation.ui.screens.ProductDetailScreen
 import com.example.randtexpress.presentation.ui.screens.HomeScreen
 import com.example.randtexpress.presentation.ui.screens.auth.LoginScreen
@@ -34,6 +36,8 @@ private object AuthRoutes {
 private object HomeRoutes {
     const val Home = "home"
     const val Cart = "cart"
+    const val Checkout = "checkout"
+    const val OrderDetail = "order/{orderId}"
     const val CategoryDetail = "category/{categoryName}"
     const val ProductDetail = "product/{productId}"
 }
@@ -161,6 +165,44 @@ private fun HomeNavigation(
             popExitTransition = { slideOutToRight() }
         ) {
             CartScreen(
+                onBackClick = { navController.popBackStack() },
+                onOrderNowClick = {
+                    navController.navigate(HomeRoutes.Checkout)
+                }
+            )
+        }
+        composable(
+            route = HomeRoutes.Checkout,
+            enterTransition = { slideInFromRight() },
+            exitTransition = { slideOutToLeft() },
+            popEnterTransition = { slideInFromLeft() },
+            popExitTransition = { slideOutToRight() }
+        ) {
+            CheckoutScreen(
+                onBackClick = { navController.popBackStack() },
+                onOrderCreated = { orderId ->
+                    navController.navigate("order/$orderId") {
+                        popUpTo(HomeRoutes.Cart) {
+                            inclusive = true
+                        }
+                        launchSingleTop = true
+                    }
+                }
+            )
+        }
+        composable(
+            route = HomeRoutes.OrderDetail,
+            arguments = listOf(
+                navArgument("orderId") { type = NavType.IntType }
+            ),
+            enterTransition = { slideInFromRight() },
+            exitTransition = { slideOutToLeft() },
+            popEnterTransition = { slideInFromLeft() },
+            popExitTransition = { slideOutToRight() }
+        ) { backStackEntry ->
+            val orderId = backStackEntry.arguments?.getInt("orderId") ?: 0
+            OrderDetailScreen(
+                orderId = orderId,
                 onBackClick = { navController.popBackStack() }
             )
         }

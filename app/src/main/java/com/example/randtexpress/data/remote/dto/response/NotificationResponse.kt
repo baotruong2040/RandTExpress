@@ -6,17 +6,17 @@ data class NotificationResponse(
     @SerializedName("id")
     val id: Int,
     @SerializedName("user_id")
-    val userId: Int,
+    val userId: Int?,
     @SerializedName("title")
-    val title: String,
+    val title: String?,
     @SerializedName("message")
-    val message: String,
+    val message: String?,
     @SerializedName("is_read")
-    val isRead: Boolean,
+    val isRead: Boolean?,
     @SerializedName("order_id")
     val orderId: Int? = null,
     @SerializedName("created_at")
-    val createdAt: String
+    val createdAt: String?
 )
 
 data class PaginatedNotifications(

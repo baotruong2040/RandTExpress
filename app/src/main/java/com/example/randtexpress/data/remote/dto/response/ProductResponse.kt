@@ -6,22 +6,25 @@ data class ProductResponse(
     @SerializedName("id")
     val id: Int,
     @SerializedName("name")
-    val name: String,
+    val name: String?,
     @SerializedName("description")
-    val description: String,
+    val description: String?,
     @SerializedName("price")
-    val price: Long,
+    val price: Long?,
     @SerializedName("image_url")
     val imageUrl: String?,
     @SerializedName("category_id")
-    val categoryId: Int,
+    val categoryId: Int?,
     @SerializedName("category_name")
-    val categoryName: String,
+    val categoryName: String?,
     @SerializedName("is_available")
-    val isAvailable: Boolean,
+    val isAvailable: Int?,
     @SerializedName("created_at")
-    val createdAt: String
-)
+    val createdAt: String?
+) {
+    val isAvailableBoolean: Boolean
+        get() = (isAvailable ?: 0) != 0
+}
 
 data class ProductListResponse(
     @SerializedName("products")

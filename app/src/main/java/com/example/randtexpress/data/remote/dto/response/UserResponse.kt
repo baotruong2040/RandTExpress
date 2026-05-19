@@ -6,17 +6,17 @@ data class UserResponse(
     @SerializedName("id")
     val id: Int,
     @SerializedName("username")
-    val username: String,
+    val username: String?,
     @SerializedName("full_name")
-    val fullName: String,
+    val fullName: String?,
     @SerializedName("email")
-    val email: String,
+    val email: String?,
     @SerializedName("phone")
-    val phone: String,
+    val phone: String?,
     @SerializedName("role")
-    val role: String,
+    val role: String?,
     @SerializedName("created_at")
-    val createdAt: String
+    val createdAt: String?
 )
 
 data class UserListResponse(

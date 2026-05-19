@@ -54,6 +54,7 @@ import com.example.randtexpress.presentation.viewmodel.CartViewModel
 @Composable
 fun CartScreen(
     onBackClick: () -> Unit,
+    onOrderNowClick: () -> Unit,
     viewModel: CartViewModel = hiltViewModel()
 ) {
     val uiState by viewModel.uiState.collectAsStateWithLifecycle()
@@ -79,6 +80,7 @@ fun CartScreen(
     ) { paddingValues ->
         if (uiState.isEmpty) {
             EmptyCartContent(
+                onOrderNowClick = onOrderNowClick,
                 modifier = Modifier
                     .fillMaxSize()
                     .padding(paddingValues)
@@ -127,7 +129,7 @@ fun CartScreen(
                     }
                     Spacer(modifier = Modifier.height(12.dp))
                     Button(
-                        onClick = {},
+                        onClick = onOrderNowClick,
                         modifier = Modifier
                             .fillMaxWidth()
                             .height(48.dp),
@@ -146,6 +148,7 @@ fun CartScreen(
 
 @Composable
 private fun EmptyCartContent(
+    onOrderNowClick: () -> Unit,
     modifier: Modifier = Modifier
 ) {
     Column(
@@ -174,7 +177,7 @@ private fun EmptyCartContent(
         }
         Spacer(modifier = Modifier.height(32.dp))
         Button(
-            onClick = {},
+            onClick = onOrderNowClick,
             modifier = Modifier.height(48.dp),
             shape = RoundedCornerShape(50.dp),
             colors = ButtonDefaults.buttonColors(
