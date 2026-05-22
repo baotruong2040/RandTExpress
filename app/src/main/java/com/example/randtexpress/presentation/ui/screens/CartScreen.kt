@@ -41,6 +41,7 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
@@ -276,5 +277,27 @@ private fun QuantityActionButton(
                 fontWeight = FontWeight.Bold
             )
         }
+    }
+}
+
+@Preview(showBackground = true, backgroundColor = 0xFFF7F7F7)
+@Composable
+fun CartItemCardPreview() {
+    // Tạo dữ liệu giả để hiển thị
+    val mockItem = CartItem(
+        productId = 1,
+        name = "Sản phẩm mẫu RandT Express",
+        price = 150000,
+        imageUrl = "https://via.placeholder.com/150",
+        quantity = 2
+    )
+
+    Box(modifier = Modifier.padding(16.dp)) {
+        CartItemCard(
+            item = mockItem,
+            onIncrease = { /* Không làm gì trong preview */ },
+            onDecrease = { /* Không làm gì trong preview */ },
+            onRemove = { /* Không làm gì trong preview */ }
+        )
     }
 }

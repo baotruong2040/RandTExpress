@@ -42,9 +42,10 @@ class CategoryDetailViewModel @Inject constructor(
                     pageSize = 20
                 )
 
-                val filteredProducts = response.products.filter { 
+                val targetCategory = FixedCategories.mapRawCategoryToFixed(categoryName) ?: categoryName
+                val filteredProducts = response.products.filter {
                     it.categoryName?.let { name ->
-                        FixedCategories.mapRawCategoryToFixed(name) == categoryName
+                        FixedCategories.mapRawCategoryToFixed(name) == targetCategory
                     } ?: false
                 }
 

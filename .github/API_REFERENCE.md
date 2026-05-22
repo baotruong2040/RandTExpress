@@ -166,6 +166,47 @@ All responses use a standard envelope:
   ```
 - **Errors:** `404` (product not found)
 
+### GET `/api/products/search`
+- **Role:** Public
+- **Description:** Search and filter available products with pagination and sorting
+- **Query Parameters:**
+  - `q` (optional): Text search in product name and description (max 255 chars)
+  - `category_ids` (optional): Filter by categories (comma-separated IDs, e.g., `1,2,3`)
+  - `sort_by` (optional): Sort field - `id`, `name`, or `price` (default: `id`)
+  - `sort_order` (optional): Sort direction - `asc` or `desc` (default: `desc`)
+  - `page` (optional): Page number (default: `1`)
+  - `page_size` (optional): Items per page (default: `20`, max: `100`)
+- **Examples:**
+  - `GET /api/products/search?q=pho` — search products with "pho" in name/description
+  - `GET /api/products/search?category_ids=1,2&sort_by=price&sort_order=asc` — products in categories 1,2 sorted by price ascending
+  - `GET /api/products/search?q=beef&category_ids=1&page=2&page_size=10` — paginated search results
+- **Success:** `200 OK`
+  ```json
+  {
+    "status": "success",
+    "message": "Products search results fetched successfully",
+    "data": {
+      "products": [
+        {
+          "id": 1,
+          "name": "Phở Bò",
+          "description": "Traditional beef pho",
+          "price": 50000,
+          "image_url": "https://api.example.com/uploads/products/1715794425000-123456789.jpg",
+          "is_available": true,
+          "category_id": 1,
+          "category_name": "Noodle Soups"
+        }
+      ],
+      "page": 1,
+      "page_size": 20,
+      "total": 5
+    }
+  }
+  ```
+- **Errors:**
+  - `400`: Invalid query parameters (invalid page, page_size > 100, invalid sort_by, etc.)
+
 ### POST `/api/products`
 - **Role:** `ADMIN`
 - **Description:** Create new product (with optional image upload)
@@ -262,6 +303,41 @@ All responses use a standard envelope:
     }
   }
   ```
+
+### GET `/api/categories/:id/products`
+- **Role:** Public
+- **Description:** List available products in a specific category (paginated)
+- **Params:** `id` (integer, required)
+- **Query Parameters:**
+  - `page` (optional): Page number (default: `1`)
+  - `page_size` (optional): Items per page (default: `20`, max: `100`)
+- **Success:** `200 OK`
+  ```json
+  {
+    "status": "success",
+    "message": "Category products fetched successfully",
+    "data": {
+      "products": [
+        {
+          "id": 1,
+          "name": "Phở Bò",
+          "description": "Traditional beef pho",
+          "price": 50000,
+          "image_url": "https://api.example.com/uploads/products/1715794425000-123456789.jpg",
+          "is_available": true,
+          "category_id": 1,
+          "category_name": "Noodle Soups"
+        }
+      ],
+      "page": 1,
+      "page_size": 20,
+      "total": 12
+    }
+  }
+  ```
+- **Errors:**
+  - `400`: Invalid `id`, `page`, or `page_size`
+  - `404`: Category not found
 
 ### POST `/api/categories`
 - **Role:** `ADMIN`

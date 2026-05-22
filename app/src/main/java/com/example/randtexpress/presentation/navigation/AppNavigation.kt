@@ -24,6 +24,7 @@ import com.example.randtexpress.presentation.ui.screens.CheckoutScreen
 import com.example.randtexpress.presentation.ui.screens.OrderDetailScreen
 import com.example.randtexpress.presentation.ui.screens.ProductDetailScreen
 import com.example.randtexpress.presentation.ui.screens.HomeScreen
+import com.example.randtexpress.presentation.ui.screens.SearchScreen
 import com.example.randtexpress.presentation.ui.screens.auth.LoginScreen
 import com.example.randtexpress.presentation.ui.screens.auth.RegisterScreen
 import com.example.randtexpress.presentation.viewmodel.SessionViewModel
@@ -40,6 +41,7 @@ private object HomeRoutes {
     const val OrderDetail = "order/{orderId}"
     const val CategoryDetail = "category/{categoryName}"
     const val ProductDetail = "product/{productId}"
+    const val Search = "search"
 }
 
 private const val SlideAnimationDurationMillis = 250
@@ -154,6 +156,9 @@ private fun HomeNavigation(
                 },
                 onCategoryClick = { categoryName ->
                     navController.navigate("category/${Uri.encode(categoryName)}")
+                },
+                onSearchClick = {
+                    navController.navigate(HomeRoutes.Search)
                 }
             )
         }
@@ -216,6 +221,20 @@ private fun HomeNavigation(
             val categoryName = Uri.decode(backStackEntry.arguments?.getString("categoryName") ?: "")
             CategoryDetailScreen(
                 categoryName = categoryName,
+                onBackClick = { navController.popBackStack() },
+                onProductClick = { productId ->
+                    navController.navigate("product/$productId")
+                }
+            )
+        }
+        composable(
+            route = HomeRoutes.Search,
+            enterTransition = { slideInFromRight() },
+            exitTransition = { slideOutToLeft() },
+            popEnterTransition = { slideInFromLeft() },
+            popExitTransition = { slideOutToRight() }
+        ) {
+            SearchScreen(
                 onBackClick = { navController.popBackStack() },
                 onProductClick = { productId ->
                     navController.navigate("product/$productId")

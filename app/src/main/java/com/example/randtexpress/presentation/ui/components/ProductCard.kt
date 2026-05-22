@@ -19,12 +19,14 @@ import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextOverflow
+import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import coil.compose.AsyncImage
 import com.example.randtexpress.R
 import com.example.randtexpress.data.remote.dto.response.ProductResponse
+import com.example.randtexpress.presentation.ui.components.NetworkImage
 import com.example.randtexpress.presentation.ui.toVndDisplay
+
 
 @Composable
 fun ProductCard(
@@ -36,7 +38,7 @@ fun ProductCard(
     Card(
         modifier = modifier
             .width(160.dp)
-            .padding(6.dp)
+            .padding(0.dp)
             .clickable(onClick = onClick),
         shape = RoundedCornerShape(16.dp),
         colors = CardDefaults.cardColors(containerColor = Color.White),
@@ -44,8 +46,8 @@ fun ProductCard(
     ) {
         Box(modifier = Modifier.fillMaxWidth()) {
             // Product Image
-            AsyncImage(
-                model = product.imageUrl,
+            NetworkImage(
+                imageUrl = product.imageUrl,
                 contentDescription = product.name,
                 modifier = Modifier
                     .fillMaxWidth()
@@ -127,4 +129,24 @@ fun ProductCard(
             }
         }
     }
+}
+
+@Preview(showBackground = true)
+@Composable
+fun ProductCardPreview() {
+    ProductCard(
+        product = ProductResponse(
+            id = 1,
+            name = "Product Name",
+            description = "Description",
+            price = 100000L,
+            imageUrl = "https://upload.wikimedia.org/wikipedia/vi/9/92/KFC_logo-image.png",
+            categoryId = 1,
+            categoryName = "Category",
+            isAvailable = 1,
+            createdAt = ""
+        ),
+        onClick = {},
+        onAddToCart = {}
+    )
 }

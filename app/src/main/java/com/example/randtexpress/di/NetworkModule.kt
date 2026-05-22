@@ -1,5 +1,6 @@
 package com.example.randtexpress.di
 
+import com.example.randtexpress.data.remote.NetworkConfig
 import com.example.randtexpress.data.remote.dto.response.BooleanDeserializer
 import com.example.randtexpress.data.remote.dto.response.CategoryListResponse
 import com.example.randtexpress.data.remote.dto.response.CategoryListResponseDeserializer
@@ -27,8 +28,6 @@ import javax.inject.Singleton
 @Module
 @InstallIn(SingletonComponent::class)
 object NetworkModule {
-
-    private const val BASE_URL = "http://10.0.2.2:3000/api/"
 
     @Singleton
     @Provides
@@ -85,7 +84,7 @@ object NetworkModule {
             .registerTypeAdapter(UserListResponse::class.java, UserListResponseDeserializer())
             .create()
         return Retrofit.Builder()
-            .baseUrl(BASE_URL)
+            .baseUrl(NetworkConfig.API_BASE_URL)
             .client(okHttpClient)
             .addConverterFactory(GsonConverterFactory.create(gson))
             .build()

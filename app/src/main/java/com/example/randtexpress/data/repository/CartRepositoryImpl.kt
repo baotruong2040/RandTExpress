@@ -2,6 +2,7 @@ package com.example.randtexpress.data.repository
 
 import com.example.randtexpress.data.local.dao.CartDao
 import com.example.randtexpress.data.local.entity.CartItemEntity
+import com.example.randtexpress.data.remote.ImageUrlResolver
 import com.example.randtexpress.domain.model.CartItem
 import com.example.randtexpress.domain.repository.CartRepository
 import javax.inject.Inject
@@ -17,7 +18,7 @@ class CartRepositoryImpl @Inject constructor(
                 CartItem(
                     productId = item.productId,
                     name = item.name,
-                    imageUrl = item.imageUrl,
+                    imageUrl = ImageUrlResolver.resolve(item.imageUrl),
                     price = item.price,
                     quantity = item.quantity
                 )
@@ -37,7 +38,7 @@ class CartRepositoryImpl @Inject constructor(
                 CartItemEntity(
                     productId = productId,
                     name = name,
-                    imageUrl = imageUrl,
+                    imageUrl = ImageUrlResolver.resolve(imageUrl),
                     price = price,
                     quantity = 1
                 )

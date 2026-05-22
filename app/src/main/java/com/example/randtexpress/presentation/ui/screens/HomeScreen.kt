@@ -38,14 +38,14 @@ import androidx.hilt.navigation.compose.hiltViewModel
 import com.google.accompanist.pager.ExperimentalPagerApi
 import com.google.accompanist.pager.HorizontalPager
 import com.google.accompanist.pager.rememberPagerState
-import coil.compose.AsyncImage
 import com.example.randtexpress.R
 import com.example.randtexpress.data.preferences.SessionData
-import com.example.randtexpress.data.remote.dto.response.ProductResponse
 import com.example.randtexpress.presentation.ui.components.ExitConfirmDialog
 import com.example.randtexpress.presentation.ui.components.ProductCard
 import com.example.randtexpress.presentation.viewmodel.HomeViewModel
 import kotlinx.coroutines.delay
+
+private val HomeHorizontalPadding = 16.dp
 
 @Composable
 fun HomeScreen(
@@ -56,6 +56,7 @@ fun HomeScreen(
     onCartClick: () -> Unit = {},
     onCategoryClick: (String) -> Unit = {},
     onBannerClick: (Int) -> Unit = {},
+    onSearchClick: () -> Unit = {},
     viewModel: HomeViewModel = hiltViewModel()
 ) {
     val uiState by viewModel.uiState.collectAsState()
@@ -66,63 +67,75 @@ fun HomeScreen(
     }
 
     Scaffold(
-        bottomBar = { HomeBottomNavigation(onLogout) }
+        containerColor = Color.Transparent
     ) { paddingValues ->
-        when {
-            uiState.isLoading -> {
-                Box(
-                    modifier = Modifier
-                        .fillMaxSize()
-                        .padding(paddingValues),
-                    contentAlignment = Alignment.Center
-                ) {
-                    CircularProgressIndicator()
+        Box(modifier = Modifier.fillMaxSize()) {
+            when {
+                uiState.isLoading -> {
+                    Box(
+                        modifier = Modifier
+                            .fillMaxSize()
+                            .padding(top = paddingValues.calculateTopPadding()),
+                        contentAlignment = Alignment.Center
+                    ) {
+                        CircularProgressIndicator()
+                    }
                 }
-            }
-            uiState.errorMessage != null -> {
-                Box(
-                    modifier = Modifier
-                        .fillMaxSize()
-                        .padding(paddingValues),
-                    contentAlignment = Alignment.Center
-                ) {
-                    Text(text = "Lỗi: ${uiState.errorMessage}", color = Color.Red)
+                uiState.errorMessage != null -> {
+                    Box(
+                        modifier = Modifier
+                            .fillMaxSize()
+                            .padding(top = paddingValues.calculateTopPadding()),
+                        contentAlignment = Alignment.Center
+                    ) {
+                        Text(text = "Lỗi: ${uiState.errorMessage}", color = Color.Red)
+                    }
                 }
-            }
-            else -> {
-                LazyColumn(
-                    modifier = Modifier
-                        .fillMaxSize()
-                        .padding(paddingValues)
-                        .background(Color(0xFFFAFAFA))
-                ) {
-                    item { HomeHeader(onCartClick) }
-                    item { SearchBar() }
-                    item { PromotionBanner(onBannerClick = onBannerClick) }
-                    
-                    uiState.categoryProducts.forEach { (categoryName, products) ->
-                        item {
-                            SectionHeader(
-                                title = categoryName,
-                                onSeeMoreClick = { onCategoryClick(categoryName) }
-                            )
-                            LazyRow(
-                                contentPadding = PaddingValues(horizontal = 6.dp),
-                                horizontalArrangement = Arrangement.spacedBy(6.dp)
-                            ) {
-                                items(products) { product ->
-                                    ProductCard(
-                                        product = product,
-                                        onClick = { onProductClick(product.id) },
-                                        onAddToCart = { viewModel.addToCart(product) }
-                                    )
+                else -> {
+                    LazyColumn(
+                        modifier = Modifier
+                            .fillMaxSize()
+                            .background(Color(0xFFFAFAFA))
+                            .padding(top = paddingValues.calculateTopPadding())
+                    ) {
+                        item { HomeHeader(onCartClick) }
+                        item { SearchBar(onSearchClick) }
+                        item { PromotionBanner(onBannerClick = onBannerClick) }
+                        
+                        uiState.categorySections.forEach { section ->
+                            item {
+                                SectionHeader(
+                                    title = section.name,
+                                    onSeeMoreClick = { onCategoryClick(section.name) }
+                                )
+                                LazyRow(
+                                    contentPadding = PaddingValues(horizontal = HomeHorizontalPadding),
+                                    horizontalArrangement = Arrangement.spacedBy(6.dp)
+                                ) {
+                                    items(section.products) { product ->
+                                        ProductCard(
+                                            product = product,
+                                            onClick = { onProductClick(product.id) },
+                                            onAddToCart = { viewModel.addToCart(product) }
+                                        )
+                                    }
                                 }
                             }
                         }
+                        
+                        // Thêm khoảng trống ở cuối để không bị Bottom Navigation che mất nội dung
+                        item { Spacer(modifier = Modifier.height(100.dp)) }
                     }
-                    
-                    item { Spacer(modifier = Modifier.height(12.dp)) }
                 }
+            }
+
+            // Thanh điều hướng nổi lên trên cùng, căn giữa dưới cùng
+            Box(
+                modifier = Modifier
+                    .align(Alignment.BottomCenter)
+                    .background(Color.Transparent) // Đảm bảo phần bao quanh là trong suốt
+            ) {
+                HomeBottomNavigation(onLogout)
             }
         }
     }
@@ -143,7 +156,7 @@ private fun HomeHeader(onCartClick: () -> Unit) {
     Row(
         modifier = Modifier
             .fillMaxWidth()
-            .padding(horizontal = 12.dp, vertical = 10.dp),
+            .padding(horizontal = HomeHorizontalPadding, vertical = 10.dp),
         verticalAlignment = Alignment.CenterVertically,
         horizontalArrangement = Arrangement.SpaceBetween
     ) {
@@ -179,11 +192,12 @@ private fun HomeHeader(onCartClick: () -> Unit) {
 }
 
 @Composable
-private fun SearchBar() {
+private fun SearchBar(onSearchClick: () -> Unit) {
     Surface(
         modifier = Modifier
             .fillMaxWidth()
-            .padding(horizontal = 12.dp, vertical = 6.dp),
+            .padding(horizontal = HomeHorizontalPadding, vertical = 6.dp)
+            .clickable(onClick = onSearchClick),
         shape = RoundedCornerShape(24.dp),
         color = Color(0xFFEEEEEE)
     ) {
@@ -269,7 +283,7 @@ private fun PromotionBanner(
     Column(
         modifier = Modifier
             .fillMaxWidth()
-            .padding(horizontal = 12.dp, vertical = 8.dp)
+            .padding(horizontal = HomeHorizontalPadding, vertical = 8.dp)
     ) {
         HorizontalPager(
             count = Int.MAX_VALUE,
@@ -377,7 +391,7 @@ private fun SectionHeader(
     Row(
         modifier = Modifier
             .fillMaxWidth()
-            .padding(horizontal = 12.dp, vertical = 4.dp),
+            .padding(horizontal = HomeHorizontalPadding, vertical = 4.dp),
         horizontalArrangement = Arrangement.SpaceBetween,
         verticalAlignment = Alignment.CenterVertically
     ) {
@@ -406,7 +420,7 @@ private fun SectionHeader(
 private fun HomeBottomNavigation(onLogout: () -> Unit) {
     NavigationBar(
         containerColor = Color.White,
-        tonalElevation = 8.dp,
+        tonalElevation = 0.dp, // Đặt về 0 để tránh màu xám của Material 3
         modifier = Modifier
             .padding(12.dp)
             .clip(RoundedCornerShape(32.dp))
@@ -451,4 +465,10 @@ private fun HomeBottomNavigation(onLogout: () -> Unit) {
             }
         )
     }
+}
+
+@Preview(showBackground = true)
+@Composable
+fun PreviewHome() {
+    HomeBottomNavigation(onLogout = {});
 }

@@ -4,8 +4,8 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.randtexpress.data.remote.dto.response.ProductResponse
 import com.example.randtexpress.domain.repository.CartRepository
+import com.example.randtexpress.domain.repository.CategoryRepository
 import com.example.randtexpress.domain.repository.ProductRepository
-import com.example.randtexpress.presentation.ui.FixedCategories
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
@@ -14,15 +14,22 @@ import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
+data class HomeCategorySection(
+    val id: Int,
+    val name: String,
+    val products: List<ProductResponse>
+)
+
 data class HomeUiState(
     val isLoading: Boolean = false,
-    val categoryProducts: Map<String, List<ProductResponse>> = emptyMap(),
+    val categorySections: List<HomeCategorySection> = emptyList(),
     val errorMessage: String? = null
 )
 
 @HiltViewModel
 class HomeViewModel @Inject constructor(
     private val productRepository: ProductRepository,
+    private val categoryRepository: CategoryRepository,
     private val cartRepository: CartRepository
 ) : ViewModel() {
 
@@ -37,22 +44,24 @@ class HomeViewModel @Inject constructor(
         viewModelScope.launch {
             _uiState.update { it.copy(isLoading = true, errorMessage = null) }
             try {
-                val response = productRepository.getProducts(categoryId = null, page = 1, pageSize = 50)
+                val categories = categoryRepository.getCategories()
+                    .categories
+                    .sortedBy { it.id }
+                val products = productRepository.getProducts(categoryId = null, page = 1, pageSize = 50).products
+                val productsByCategoryId = products.groupBy { it.categoryId }
 
-                val groupedByCategory = FixedCategories.orderedCategories.associateWith { category ->
-                    response.products
-                        .filter { product ->
-                            product.categoryName?.let { 
-                                FixedCategories.mapRawCategoryToFixed(it) == category
-                            } ?: false
-                        }
-                        .take(5)
+                val sections = categories.map { category ->
+                    HomeCategorySection(
+                        id = category.id,
+                        name = category.name ?: "Danh mục",
+                        products = productsByCategoryId[category.id].orEmpty().take(5)
+                    )
                 }
 
-                _uiState.update { 
+                _uiState.update {
                     it.copy(
                         isLoading = false,
-                        categoryProducts = groupedByCategory
+                        categorySections = sections
                     )
                 }
             } catch (e: Exception) {

@@ -1,0 +1,173 @@
+<!DOCTYPE html>
+
+<html class="light" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Sign In - R&amp;T Express</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@600;700;800&amp;family=Inter:wght@400&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    colors: {
+                        "secondary-fixed-dim": "#ffb77a",
+                        "primary": "#bd0d00",
+                        "surface-tint": "#be0d00",
+                        "surface": "#fcf9f8",
+                        "outline-variant": "#e6bdb6",
+                        "on-error": "#ffffff",
+                        "inverse-on-surface": "#f3f0ef",
+                        "primary-fixed": "#ffdad4",
+                        "on-secondary": "#ffffff",
+                        "error-container": "#ffdad6",
+                        "on-tertiary-fixed-variant": "#005138",
+                        "on-secondary-fixed": "#2e1500",
+                        "surface-container-lowest": "#ffffff",
+                        "primary-container": "#e32d19",
+                        "inverse-surface": "#313030",
+                        "on-surface-variant": "#5d403a",
+                        "tertiary-container": "#00875f",
+                        "on-tertiary-fixed": "#002114",
+                        "surface-bright": "#fcf9f8",
+                        "surface-container-high": "#eae7e7",
+                        "tertiary-fixed": "#7afac3",
+                        "background": "#fcf9f8",
+                        "on-background": "#1c1b1b",
+                        "error": "#ba1a1a",
+                        "on-tertiary": "#ffffff",
+                        "tertiary": "#006b4a",
+                        "on-secondary-fixed-variant": "#6d3a00",
+                        "on-tertiary-container": "#ffffff",
+                        "surface-container-highest": "#e5e2e1",
+                        "on-secondary-container": "#683700",
+                        "on-primary-container": "#ffffff",
+                        "secondary-container": "#fe9832",
+                        "secondary": "#8f4e00",
+                        "inverse-primary": "#ffb4a7",
+                        "surface-variant": "#e5e2e1",
+                        "on-primary-fixed-variant": "#920800",
+                        "secondary-fixed": "#ffdcc2",
+                        "outline": "#916f69",
+                        "primary-fixed-dim": "#ffb4a7",
+                        "on-surface": "#1c1b1b",
+                        "surface-container-low": "#f6f3f2",
+                        "surface-container": "#f0eded",
+                        "on-error-container": "#93000a",
+                        "surface-dim": "#dcd9d9",
+                        "on-primary-fixed": "#400100",
+                        "on-primary": "#ffffff",
+                        "tertiary-fixed-dim": "#5cdda8"
+                    },
+                    borderRadius: {
+                        "DEFAULT": "0.25rem",
+                        "lg": "0.5rem",
+                        "xl": "0.75rem",
+                        "full": "9999px"
+                    },
+                    spacing: {
+                        "stack-lg": "24px",
+                        "container-margin": "16px",
+                        "stack-sm": "4px",
+                        "base": "8px",
+                        "stack-md": "16px",
+                        "gutter": "12px"
+                    },
+                    fontFamily: {
+                        "label-lg": ["Plus Jakarta Sans"],
+                        "headline-lg-mobile": ["Plus Jakarta Sans"],
+                        "body-md": ["Inter"],
+                        "body-sm": ["Inter"],
+                        "price-display": ["Plus Jakarta Sans"],
+                        "headline-xl": ["Plus Jakarta Sans"],
+                        "headline-lg": ["Plus Jakarta Sans"]
+                    },
+                    fontSize: {
+                        "label-lg": ["14px", { lineHeight: "20px", fontWeight: "600" }],
+                        "headline-lg-mobile": ["22px", { lineHeight: "28px", fontWeight: "700" }],
+                        "body-md": ["16px", { lineHeight: "24px", fontWeight: "400" }],
+                        "body-sm": ["14px", { lineHeight: "20px", fontWeight: "400" }],
+                        "price-display": ["20px", { lineHeight: "24px", fontWeight: "800" }],
+                        "headline-xl": ["32px", { lineHeight: "40px", letterSpacing: "-0.02em", fontWeight: "800" }],
+                        "headline-lg": ["24px", { lineHeight: "32px", fontWeight: "700" }]
+                    }
+                }
+            }
+        }
+    </script>
+<style>
+        .material-symbols-outlined {
+            font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+        }
+        .icon-fill {
+            font-variation-settings: 'FILL' 1;
+        }
+    </style>
+<style>
+    body {
+      min-height: max(884px, 100dvh);
+    }
+  </style>
+  </head>
+<body class="bg-background text-on-background antialiased font-body-md h-screen w-full overflow-hidden relative">
+<div class="absolute inset-0 z-0 bg-cover bg-center bg-no-repeat" data-alt="A high-quality, professional food photography shot of a delicious, juicy burger placed on a rustic wooden table. The scene is brightly lit with warm natural light, highlighting the vibrant colors of fresh lettuce, red tomatoes, and perfectly melted cheese. The background is intentionally blurred to create a sophisticated shallow depth of field, directing all focus to the meal. The overall aesthetic is warm, inviting, and appetizing, designed specifically to serve as an atmospheric backdrop for a modern, light-mode fast-food application interface featuring red and orange brand colors." style="background-image: url('https://lh3.googleusercontent.com/aida-public/AB6AXuAkmr58qmZEhn53AvHgvT4HwMJLrmYyYkow7ptrx2QCf9CpiGq8gt0yqKJcNfhI-Ztqp5qnGztmxL-Db__207VsX5i70hlG6AJN0ip-mnknU4-lwjdgqLxepjGCMbTtoeCQGR6xkyP4ElozDE_HF9gZjBaf8jgr0fJn_4KGkJDrhpFd1xqo7556gWZH8WOjdIYbj4QAEMNiMshg8siGC4v0HxvafbVcn6aTE6IO6bwDqJg5tisW-PoO0-tqodQar10oCtEog-5v45Y');">
+<div class="absolute inset-0 bg-black/10 backdrop-blur-[4px]"></div>
+</div>
+<div class="relative z-10 w-full h-full flex items-center justify-center px-container-margin py-stack-lg overflow-y-auto">
+<div class="w-full max-w-sm bg-white/70 backdrop-blur-xl border border-white/60 rounded-3xl p-6 md:p-8 shadow-[0_8px_32px_0_rgba(189,13,0,0.08)] flex flex-col gap-6">
+<div class="text-center w-full">
+<h1 class="font-headline-xl text-headline-xl text-primary drop-shadow-sm">R&amp;T Express</h1>
+</div>
+<div class="flex w-full bg-surface-variant/60 rounded-full p-1 relative shadow-inner">
+<div class="absolute left-1 top-1 bottom-1 w-[calc(50%-4px)] bg-white rounded-full shadow-sm transition-transform duration-300 ease-out z-0"></div>
+<button class="flex-1 relative z-10 py-2.5 text-center font-label-lg text-label-lg text-primary cursor-default">Sign in</button>
+<button class="flex-1 relative z-10 py-2.5 text-center font-label-lg text-label-lg text-on-surface-variant/70 hover:text-on-surface-variant transition-colors">Sign up</button>
+</div>
+<form class="flex flex-col gap-4">
+<div class="relative group">
+<span class="material-symbols-outlined absolute left-4 top-1/2 -translate-y-1/2 text-on-surface-variant/60 group-focus-within:text-primary transition-colors duration-200 pointer-events-none">person</span>
+<input class="w-full bg-white/60 border border-white/50 focus:border-primary/50 focus:bg-white/90 focus:ring-4 focus:ring-primary/10 rounded-xl py-3.5 pl-12 pr-4 font-body-md text-body-md text-on-surface outline-none transition-all placeholder:text-on-surface-variant/60 shadow-sm backdrop-blur-sm" placeholder="Username or Email" type="text"/>
+</div>
+<div class="relative group">
+<span class="material-symbols-outlined absolute left-4 top-1/2 -translate-y-1/2 text-on-surface-variant/60 group-focus-within:text-primary transition-colors duration-200 pointer-events-none">lock</span>
+<input class="w-full bg-white/60 border border-white/50 focus:border-primary/50 focus:bg-white/90 focus:ring-4 focus:ring-primary/10 rounded-xl py-3.5 pl-12 pr-12 font-body-md text-body-md text-on-surface outline-none transition-all placeholder:text-on-surface-variant/60 shadow-sm backdrop-blur-sm" placeholder="Password" type="password"/>
+<button class="absolute right-4 top-1/2 -translate-y-1/2 text-on-surface-variant/60 hover:text-primary transition-colors duration-200 outline-none" type="button">
+<span class="material-symbols-outlined text-[20px]">visibility_off</span>
+</button>
+</div>
+<div class="flex justify-end pt-1">
+<a class="font-body-sm text-[13px] text-secondary hover:text-primary transition-colors font-medium" href="#">Forgot password?</a>
+</div>
+<button class="w-full bg-primary hover:bg-primary-container active:scale-[0.98] text-on-primary font-label-lg text-label-lg py-4 rounded-xl shadow-lg hover:shadow-xl transition-all mt-2 flex items-center justify-center gap-2 group" type="button">
+<span>Login</span>
+<span class="material-symbols-outlined text-[18px] group-hover:translate-x-1 transition-transform">arrow_forward</span>
+</button>
+</form>
+<div class="flex items-center gap-3 w-full py-2">
+<div class="h-px bg-on-surface-variant/20 flex-1"></div>
+<span class="font-body-sm text-xs text-on-surface-variant/70 uppercase tracking-wider font-semibold">Or continue with</span>
+<div class="h-px bg-on-surface-variant/20 flex-1"></div>
+</div>
+<div class="flex justify-center gap-4">
+<button class="w-12 h-12 bg-white/80 hover:bg-white rounded-full flex items-center justify-center border border-white/80 shadow-sm hover:shadow transition-all hover:-translate-y-0.5 active:translate-y-0 active:scale-95 text-[#1877F2]">
+<svg aria-hidden="true" class="w-5 h-5" fill="currentColor" viewbox="0 0 24 24">
+<path clip-rule="evenodd" d="M22 12c0-5.523-4.477-10-10-10S2 6.477 2 12c0 4.991 3.657 9.128 8.438 9.878v-6.987h-2.54V12h2.54V9.797c0-2.506 1.492-3.89 3.777-3.89 1.094 0 2.238.195 2.238.195v2.46h-1.26c-1.243 0-1.63.771-1.63 1.562V12h2.773l-.443 2.89h-2.33v6.988C18.343 21.128 22 16.991 22 12z" fill-rule="evenodd"></path>
+</svg>
+</button>
+<button class="w-12 h-12 bg-white/80 hover:bg-white rounded-full flex items-center justify-center border border-white/80 shadow-sm hover:shadow transition-all hover:-translate-y-0.5 active:translate-y-0 active:scale-95 text-black">
+<svg aria-hidden="true" class="w-5 h-5" fill="currentColor" viewbox="0 0 24 24">
+<path d="M12.152 6.896c-.948 0-2.415-1.078-3.96-1.04-2.04.027-3.91 1.183-4.961 3.014-2.117 3.675-.546 9.103 1.519 12.09 1.013 1.454 2.208 3.09 3.792 3.039 1.52-.065 2.09-.987 3.935-.987 1.831 0 2.35.987 3.96.948 1.637-.026 2.676-1.48 3.676-2.948 1.156-1.688 1.636-3.325 1.662-3.415-.039-.013-3.182-1.221-3.22-4.857-.026-3.04 2.48-4.494 2.597-4.559-1.429-2.09-3.623-2.324-4.39-2.376-2-.156-3.675 1.09-4.61 1.09zM15.53 3.83c.843-1.012 1.4-2.427 1.245-3.83-1.207.052-2.662.805-3.532 1.818-.78.896-1.454 2.338-1.273 3.714 1.338.104 2.715-.688 3.559-1.701"></path>
+</svg>
+</button>
+<button class="w-12 h-12 bg-white/80 hover:bg-white rounded-full flex items-center justify-center border border-white/80 shadow-sm hover:shadow transition-all hover:-translate-y-0.5 active:translate-y-0 active:scale-95 text-[#DB4437]">
+<svg aria-hidden="true" class="w-5 h-5" fill="currentColor" viewbox="0 0 24 24">
+<path d="M12.48 10.92v3.28h7.84c-.24 1.84-.853 3.187-1.787 4.133-1.147 1.147-2.933 2.4-6.053 2.4-4.827 0-8.6-3.893-8.6-8.72s3.773-8.72 8.6-8.72c2.6 0 4.507 1.027 5.907 2.347l2.307-2.307C18.747 1.44 15.933 0 12.48 0 5.867 0 .307 5.387.307 12s5.56 12 12.173 12c3.573 0 6.267-1.173 8.373-3.36 2.16-2.16 2.84-5.213 2.84-7.667 0-.76-.053-1.467-.173-2.053H12.48z"></path>
+</svg>
+</button>
+</div>
+</div>
+</div>
+</body></html>
