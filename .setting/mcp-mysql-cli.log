@@ -149,3 +149,13 @@
 2026-05-22T06:59:09.932Z | INFO | MCP MySQL server process started with PID: 16652
 2026-05-22T06:59:09.933Z | INFO | Signal handlers registered for SIGINT and SIGTERM
 2026-05-22T06:59:09.933Z | INFO | Press Ctrl+C to gracefully shutdown the server
+2026-05-23T07:40:13.023Z | INFO | Starting MCP MySQL server from: C:\Users\ADMIN\AppData\Local\npm-cache\_npx\080bc9f59514dad9\node_modules\@liangshanli\mcp-server-mysql\src\server-final.js
+2026-05-23T07:40:13.027Z | INFO | Starting MCP MySQL server with environment: | {"MYSQL_HOST":"127.0.0.1","MYSQL_PORT":"3306","MYSQL_USER":"root","MYSQL_DATABASE":"rt_express_db","READONLY":"true","ALLOW_DDL":"false","ALLOW_DROP":"false","ALLOW_DELETE":"false","TOOL_PREFIX":"(not set)","PROJECT_NAME":"(not set)","MCP_LOG_DIR":"./.setting","MCP_DDL_LOG_FILE":"ddl.sql"}
+2026-05-23T07:40:13.032Z | INFO | MCP MySQL server process started with PID: 26964
+2026-05-23T07:40:13.032Z | INFO | Signal handlers registered for SIGINT and SIGTERM
+2026-05-23T07:40:13.032Z | INFO | Press Ctrl+C to gracefully shutdown the server
+2026-05-23T07:40:48.725Z | INFO | Starting MCP MySQL server from: C:\Users\ADMIN\AppData\Local\npm-cache\_npx\080bc9f59514dad9\node_modules\@liangshanli\mcp-server-mysql\src\server-final.js
+2026-05-23T07:40:48.727Z | INFO | Starting MCP MySQL server with environment: | {"MYSQL_HOST":"127.0.0.1","MYSQL_PORT":"3306","MYSQL_USER":"root","MYSQL_DATABASE":"rt_express_db","READONLY":"true","ALLOW_DDL":"false","ALLOW_DROP":"false","ALLOW_DELETE":"false","TOOL_PREFIX":"(not set)","PROJECT_NAME":"(not set)","MCP_LOG_DIR":"./.setting","MCP_DDL_LOG_FILE":"ddl.sql"}
+2026-05-23T07:40:48.732Z | INFO | MCP MySQL server process started with PID: 30448
+2026-05-23T07:40:48.732Z | INFO | Signal handlers registered for SIGINT and SIGTERM
+2026-05-23T07:40:48.732Z | INFO | Press Ctrl+C to gracefully shutdown the server

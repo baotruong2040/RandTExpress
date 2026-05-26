@@ -62,4 +62,10 @@ class CartViewModel @Inject constructor(
             cartRepository.removeFromCart(productId)
         }
     }
+
+    fun clearCart() {
+        viewModelScope.launch {
+            cartRepository.clearCart()
+        }
+    }
 }

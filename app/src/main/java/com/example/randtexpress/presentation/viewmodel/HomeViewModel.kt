@@ -23,7 +23,10 @@ data class HomeCategorySection(
 data class HomeUiState(
     val isLoading: Boolean = false,
     val categorySections: List<HomeCategorySection> = emptyList(),
-    val errorMessage: String? = null
+    val errorMessage: String? = null,
+    val cartItemCount: Int = 0,
+    val addedProductName: String? = null,
+    val addedProductQuantity: Int = 1
 )
 
 @HiltViewModel
@@ -38,6 +41,17 @@ class HomeViewModel @Inject constructor(
 
     init {
         loadHomeData()
+        observeCartItems()
+    }
+
+    private fun observeCartItems() {
+        viewModelScope.launch {
+            cartRepository.observeCartItems().collect { items ->
+                _uiState.update { state ->
+                    state.copy(cartItemCount = items.sumOf { it.quantity })
+                }
+            }
+        }
     }
 
     fun loadHomeData() {
@@ -77,6 +91,21 @@ class HomeViewModel @Inject constructor(
                 name = product.name ?: "",
                 imageUrl = product.imageUrl,
                 price = product.price ?: 0L
+            )
+            _uiState.update {
+                it.copy(
+                    addedProductName = product.name ?: "Sản phẩm",
+                    addedProductQuantity = 1
+                )
+            }
+        }
+    }
+
+    fun dismissAddToCartPopup() {
+        _uiState.update {
+            it.copy(
+                addedProductName = null,
+                addedProductQuantity = 1
             )
         }
     }

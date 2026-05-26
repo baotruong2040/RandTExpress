@@ -26,6 +26,7 @@ import androidx.compose.material.icons.filled.Image
 import androidx.compose.material.icons.filled.Remove
 import androidx.compose.material.icons.filled.Add
 import androidx.compose.material.icons.filled.Star
+import androidx.compose.material.icons.outlined.ShoppingCart
 import androidx.compose.material3.Card
 import androidx.compose.material3.CardDefaults
 import androidx.compose.material3.CircularProgressIndicator
@@ -54,6 +55,8 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.hilt.navigation.compose.hiltViewModel
 import coil.compose.AsyncImage
+import com.example.randtexpress.presentation.ui.components.AddToCartSuccessPopup
+import com.example.randtexpress.presentation.ui.components.CartBadgeIcon
 import com.example.randtexpress.presentation.ui.toVndDisplay
 import com.example.randtexpress.presentation.viewmodel.ProductDetailViewModel
 
@@ -62,6 +65,7 @@ import com.example.randtexpress.presentation.viewmodel.ProductDetailViewModel
 fun ProductDetailScreen(
     productId: Int,
     onBackClick: () -> Unit,
+    onCartClick: () -> Unit = {},
     viewModel: ProductDetailViewModel = hiltViewModel()
 ) {
     LaunchedEffect(productId) {
@@ -84,6 +88,14 @@ fun ProductDetailScreen(
                     }
                 },
                 actions = {
+                    CartBadgeIcon(
+                        count = uiState.cartItemCount,
+                        icon = Icons.Outlined.ShoppingCart,
+                        contentDescription = "Giỏ hàng",
+                        iconTint = Color.White,
+                        badgeColor = Color(0xFF006B4A),
+                        onClick = onCartClick
+                    )
                     IconButton(onClick = viewModel::toggleFavorite) {
                         Icon(
                             imageVector = if (uiState.isFavorite) Icons.Filled.Favorite else Icons.Filled.FavoriteBorder,
@@ -220,6 +232,18 @@ fun ProductDetailScreen(
                 }
             }
         }
+    }
+
+    uiState.addedProductName?.let { productName ->
+        AddToCartSuccessPopup(
+            productName = productName,
+            quantity = uiState.addedProductQuantity,
+            onViewCartClick = {
+                viewModel.dismissAddToCartPopup()
+                onCartClick()
+            },
+            onDismiss = viewModel::dismissAddToCartPopup
+        )
     }
 }
 

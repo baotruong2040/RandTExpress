@@ -254,7 +254,10 @@ private fun HomeNavigation(
             val productId = backStackEntry.arguments?.getInt("productId") ?: 0
             ProductDetailScreen(
                 productId = productId,
-                onBackClick = { navController.popBackStack() }
+                onBackClick = { navController.popBackStack() },
+                onCartClick = {
+                    navController.navigate(HomeRoutes.Cart)
+                }
             )
         }
     }

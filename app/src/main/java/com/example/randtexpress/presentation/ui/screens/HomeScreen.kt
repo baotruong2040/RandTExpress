@@ -40,12 +40,19 @@ import com.google.accompanist.pager.HorizontalPager
 import com.google.accompanist.pager.rememberPagerState
 import com.example.randtexpress.R
 import com.example.randtexpress.data.preferences.SessionData
+import com.example.randtexpress.presentation.ui.components.AddToCartSuccessPopup
+import com.example.randtexpress.presentation.ui.components.CartBadgeIcon
 import com.example.randtexpress.presentation.ui.components.ExitConfirmDialog
 import com.example.randtexpress.presentation.ui.components.ProductCard
 import com.example.randtexpress.presentation.viewmodel.HomeViewModel
 import kotlinx.coroutines.delay
 
 private val HomeHorizontalPadding = 16.dp
+
+// Design System Colors for Gradient Header
+private val ColorPrimary = Color(0xFFbd0d00)
+private val ColorSecondaryContainer = Color(0xFFfe9832)
+private val ColorSecondaryFixedDim = Color(0xFFffb77a)
 
 @Composable
 fun HomeScreen(
@@ -92,39 +99,79 @@ fun HomeScreen(
                     }
                 }
                 else -> {
-                    LazyColumn(
-                        modifier = Modifier
-                            .fillMaxSize()
-                            .background(Color(0xFFFAFAFA))
-                            .padding(top = paddingValues.calculateTopPadding())
+                    Box(
+                        modifier = Modifier.fillMaxSize()
                     ) {
-                        item { HomeHeader(onCartClick) }
-                        item { SearchBar(onSearchClick) }
-                        item { PromotionBanner(onBannerClick = onBannerClick) }
-                        
-                        uiState.categorySections.forEach { section ->
-                            item {
-                                SectionHeader(
-                                    title = section.name,
-                                    onSeeMoreClick = { onCategoryClick(section.name) }
-                                )
-                                LazyRow(
-                                    contentPadding = PaddingValues(horizontal = HomeHorizontalPadding),
-                                    horizontalArrangement = Arrangement.spacedBy(6.dp)
-                                ) {
-                                    items(section.products) { product ->
-                                        ProductCard(
-                                            product = product,
-                                            onClick = { onProductClick(product.id) },
-                                            onAddToCart = { viewModel.addToCart(product) }
+                        // Gradient Header Background
+                        Box(
+                            modifier = Modifier
+                                .fillMaxWidth()
+                                .height(220.dp)
+                                .background(
+                                    brush = Brush.linearGradient(
+                                        colors = listOf(
+                                            ColorPrimary,
+                                            ColorSecondaryContainer,
+                                            ColorSecondaryFixedDim
                                         )
+                                    )
+                                )
+                        )
+
+                        Column(modifier = Modifier.fillMaxSize()) {
+                            // Fixed Header and Search Bar
+                            Column(
+                                modifier = Modifier
+                                    .fillMaxWidth()
+                                    .padding(top = paddingValues.calculateTopPadding() + 4.dp)
+                            ) {
+                                HomeHeader(
+                                    cartItemCount = uiState.cartItemCount,
+                                    onCartClick = onCartClick
+                                )
+                                SearchBar(onSearchClick)
+                                Spacer(modifier = Modifier.height(16.dp))
+                            }
+
+                            // Scrollable content in white card
+                            Box(
+                                modifier = Modifier
+                                    .fillMaxSize()
+                                    .clip(RoundedCornerShape(topStart = 32.dp, topEnd = 32.dp))
+                                    .background(Color(0xFFFAFAFA))
+                            ) {
+                                LazyColumn(
+                                    modifier = Modifier.fillMaxSize()
+                                ) {
+                                    item { Spacer(modifier = Modifier.height(16.dp)) }
+                                    item { PromotionBanner(onBannerClick = onBannerClick) }
+                                    
+                                    uiState.categorySections.forEach { section ->
+                                        item {
+                                            SectionHeader(
+                                                title = section.name,
+                                                onSeeMoreClick = { onCategoryClick(section.name) }
+                                            )
+                                            LazyRow(
+                                                contentPadding = PaddingValues(horizontal = HomeHorizontalPadding),
+                                                horizontalArrangement = Arrangement.spacedBy(6.dp)
+                                            ) {
+                                                items(section.products) { product ->
+                                                    ProductCard(
+                                                        product = product,
+                                                        onClick = { onProductClick(product.id) },
+                                                        onAddToCart = { viewModel.addToCart(product) }
+                                                    )
+                                                }
+                                            }
+                                        }
                                     }
+                                    
+                                    // Thêm khoảng trống ở cuối để không bị Bottom Navigation che mất nội dung
+                                    item { Spacer(modifier = Modifier.height(100.dp)) }
                                 }
                             }
                         }
-                        
-                        // Thêm khoảng trống ở cuối để không bị Bottom Navigation che mất nội dung
-                        item { Spacer(modifier = Modifier.height(100.dp)) }
                     }
                 }
             }
@@ -149,14 +196,29 @@ fun HomeScreen(
             onDismiss = { showExitDialog = false }
         )
     }
+
+    uiState.addedProductName?.let { productName ->
+        AddToCartSuccessPopup(
+            productName = productName,
+            quantity = uiState.addedProductQuantity,
+            onViewCartClick = {
+                viewModel.dismissAddToCartPopup()
+                onCartClick()
+            },
+            onDismiss = viewModel::dismissAddToCartPopup
+        )
+    }
 }
 
 @Composable
-private fun HomeHeader(onCartClick: () -> Unit) {
+private fun HomeHeader(
+    cartItemCount: Int,
+    onCartClick: () -> Unit
+) {
     Row(
         modifier = Modifier
             .fillMaxWidth()
-            .padding(horizontal = HomeHorizontalPadding, vertical = 10.dp),
+            .padding(start = HomeHorizontalPadding, end = HomeHorizontalPadding + 4.dp, top = 12.dp, bottom = 10.dp),
         verticalAlignment = Alignment.CenterVertically,
         horizontalArrangement = Arrangement.SpaceBetween
     ) {
@@ -164,30 +226,30 @@ private fun HomeHeader(onCartClick: () -> Unit) {
             Icon(
                 imageVector = Icons.Default.LocationOn,
                 contentDescription = stringResource(R.string.location),
-                tint = Color(0xFFDB0007),
+                tint = Color.White,
                 modifier = Modifier.size(24.dp)
             )
             Spacer(modifier = Modifier.width(6.dp))
             Text(
                 text = stringResource(R.string.your_location),
                 fontSize = 14.sp,
-                color = Color.Gray
+                color = Color.White.copy(alpha = 0.9f)
             )
             Icon(
                 imageVector = Icons.Default.KeyboardArrowRight,
                 contentDescription = null,
-                tint = Color.Gray,
+                tint = Color.White.copy(alpha = 0.9f),
                 modifier = Modifier.size(16.dp)
             )
         }
 
-        IconButton(onClick = onCartClick) {
-            Icon(
-                imageVector = Icons.Outlined.ShoppingCart,
-                contentDescription = stringResource(R.string.cart_title),
-                tint = Color.Black
-            )
-        }
+        CartBadgeIcon(
+            count = cartItemCount,
+            contentDescription = stringResource(R.string.cart_title),
+            iconTint = Color.White,
+            badgeColor = Color(0xFFDB0007),
+            onClick = onCartClick
+        )
     }
 }
 
@@ -199,7 +261,7 @@ private fun SearchBar(onSearchClick: () -> Unit) {
             .padding(horizontal = HomeHorizontalPadding, vertical = 6.dp)
             .clickable(onClick = onSearchClick),
         shape = RoundedCornerShape(24.dp),
-        color = Color(0xFFEEEEEE)
+        color = Color.White // White background for search bar to stand out on gradient
     ) {
         Row(
             modifier = Modifier
@@ -424,7 +486,8 @@ private fun HomeBottomNavigation(onLogout: () -> Unit) {
         modifier = Modifier
             .padding(12.dp)
             .clip(RoundedCornerShape(32.dp))
-            .height(60.dp)
+            .height(60.dp),
+
     ) {
         NavigationBarItem(
             selected = true,
@@ -469,6 +532,33 @@ private fun HomeBottomNavigation(onLogout: () -> Unit) {
 
 @Preview(showBackground = true)
 @Composable
-fun PreviewHome() {
-    HomeBottomNavigation(onLogout = {});
+fun PreviewHomeHeader() {
+    Box(
+        modifier = Modifier
+            .fillMaxWidth()
+            .height(160.dp)
+            .background(
+                brush = Brush.linearGradient(
+                    colors = listOf(
+                        ColorPrimary,
+                        ColorSecondaryContainer,
+                        ColorSecondaryFixedDim
+                    )
+                )
+            )
+    ) {
+        Column(
+            modifier = Modifier
+                .fillMaxWidth()
+                .padding(top = 8.dp)
+        ) {
+            HomeHeader(
+                cartItemCount = 3,
+                onCartClick = {}
+            )
+            SearchBar(onSearchClick = {})
+        }
+    }
 }
+
+

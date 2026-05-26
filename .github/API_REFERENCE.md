@@ -112,7 +112,7 @@ All responses use a standard envelope:
 - **Query Parameters:**
   - `category_id` (optional): Filter by category (integer)
   - `page` (optional): Page number for pagination (default: 1)
-  - `page_size` (optional): Items per page (default: 10, max: 50)
+  - `page_size` (optional): Items per page (default: 10, max: 100)
 - **Success:** `200 OK`
   ```json
   {
@@ -419,11 +419,11 @@ All responses use a standard envelope:
 
 ### GET `/api/orders`
 - **Role:** `STAFF` or `ADMIN`
-- **Description:** List all orders (staff/admin only; customers see own orders via GET `/api/orders/:id`)
+- **Description:** List all orders (staff/admin only)
 - **Query Parameters:**
   - `status` (optional): Filter by status (PENDING, PREPARING, READY, DELIVERING, DELIVERED, CANCELLED)
   - `page` (optional): Page number (default: 1)
-  - `page_size` (optional): Items per page (default: 10, max: 50)
+  - `page_size` (optional): Items per page (default: 10, max: 100)
 - **Success:** `200 OK`
   ```json
   {
@@ -453,6 +453,42 @@ All responses use a standard envelope:
   - `400`: Invalid status or pagination
   - `401`: Missing/invalid JWT
   - `403`: User is not STAFF or ADMIN
+
+### GET `/api/users/:id/orders`
+- **Role:** Authenticated
+- **Description:** List orders for a specific user by user id
+- **Params:** `id` (integer, required)
+- **Query Parameters:**
+  - `status` (optional): Filter by status (PENDING, PREPARING, READY, DELIVERING, DELIVERED, CANCELLED)
+  - `page` (optional): Page number (default: 1)
+  - `page_size` (optional): Items per page (default: 10, max: 50)
+- **Success:** `200 OK`
+  ```json
+  {
+    "status": "success",
+    "message": "Orders fetched successfully",
+    "data": {
+      "items": [
+        {
+          "id": 11,
+          "user_id": 2,
+          "total_amount": 250000,
+          "status": "PREPARING",
+          "delivery_address": "45 Le Loi St",
+          "created_at": "2024-05-15T14:30:00Z",
+          "updated_at": "2024-05-15T14:30:00Z"
+        }
+      ],
+      "page": 1,
+      "page_size": 10,
+      "total": 1
+    }
+  }
+  ```
+- **Errors:**
+  - `400`: Invalid status or pagination
+  - `401`: Missing/invalid JWT
+  - `404`: User not found
 
 ### GET `/api/orders/:id`
 - **Role:** Authenticated

@@ -18,7 +18,10 @@ data class ProductDetailUiState(
     val product: ProductResponse? = null,
     val errorMessage: String? = null,
     val quantity: Int = 1,
-    val isFavorite: Boolean = false
+    val isFavorite: Boolean = false,
+    val cartItemCount: Int = 0,
+    val addedProductName: String? = null,
+    val addedProductQuantity: Int = 1
 )
 
 @HiltViewModel
@@ -29,6 +32,20 @@ class ProductDetailViewModel @Inject constructor(
 
     private val _uiState = MutableStateFlow(ProductDetailUiState())
     val uiState: StateFlow<ProductDetailUiState> = _uiState.asStateFlow()
+
+    init {
+        observeCartItems()
+    }
+
+    private fun observeCartItems() {
+        viewModelScope.launch {
+            cartRepository.observeCartItems().collect { items ->
+                _uiState.update { state ->
+                    state.copy(cartItemCount = items.sumOf { it.quantity })
+                }
+            }
+        }
+    }
 
     fun loadProduct(productId: Int) {
         viewModelScope.launch {
@@ -92,6 +109,21 @@ class ProductDetailViewModel @Inject constructor(
                     price = product.price ?: 0L
                 )
             }
+            _uiState.update {
+                it.copy(
+                    addedProductName = product.name ?: "Sản phẩm",
+                    addedProductQuantity = quantity
+                )
+            }
+        }
+    }
+
+    fun dismissAddToCartPopup() {
+        _uiState.update {
+            it.copy(
+                addedProductName = null,
+                addedProductQuantity = 1
+            )
         }
     }
 }
